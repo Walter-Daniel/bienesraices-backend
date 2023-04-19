@@ -14,7 +14,7 @@ const register = ( req, res ) => {
     })
 }
 
-export {
+module.exports = {
     login,
     register
 }

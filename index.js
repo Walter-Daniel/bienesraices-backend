@@ -1,7 +1,18 @@
 const express = require('express');
+const { db } = require('./config/db');
 
-//Crear el serverS
+//Crear el server
 const app = express();
+
+//Conexión a la base de datos
+( async function dbConnection(){
+    try {
+        await db.authenticate();
+        console.log('Conexión correcta a la base de datos')
+    } catch (error) {
+        console.log(error)
+    }
+})();
 
 //Routing 
 app.use('/', require('./routes/users.routes'));
