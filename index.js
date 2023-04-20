@@ -1,5 +1,6 @@
 const express = require('express');
 const { db } = require('./config/db');
+const cors =  require('cors')
 
 //Crear el server
 const app = express();
@@ -14,9 +15,15 @@ const app = express();
     }
 })();
 
+//CORS
+app.use(cors())
+
+//Directorio Público
+app.use( express.static('public') )
+
 //Routing 
 app.use('/', require('./routes/users.routes'));
-app.use('/auth', require('./routes/auth.routes'));
+app.use('/api/auth', require('./routes/auth.routes'));
 
 
 //Definir el puerto
