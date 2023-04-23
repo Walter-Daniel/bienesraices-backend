@@ -19,8 +19,7 @@ const register = async( req, res ) => {
         res.status(500).json({
             msg: 'Hable con el administrador'
         })
-    }
-   
+    }  
 }
 
 module.exports = {
