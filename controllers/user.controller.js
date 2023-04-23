@@ -1,6 +1,6 @@
 const User = require('../schemas/User.schema')
 
-const login = ( req, res ) => {
+const login = async( req, res ) => {
     console.log(req.body)
     res.status(400).json({
         ok: true,
@@ -12,7 +12,10 @@ const register = async( req, res ) => {
     const {body} = req
     try {
         const user = await User.create(body);
-        res.json( user )
+        res.status(201).json({
+            ok: true,
+            user
+        });
         
     } catch (error) {
         console.log(error)

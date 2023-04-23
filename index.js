@@ -5,6 +5,9 @@ const cors =  require('cors')
 //Crear el server
 const app = express();
 
+//Habilitar lectura json
+app.use(express.json());
+
 //Habilitar lectura de datos formulario
 app.use( express.urlencoded({ extended:true }) );
 
