@@ -24,6 +24,7 @@ const User = db.define('User', {
         beforeCreate: async function(user){
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash( user.password, salt )
+            
         }
     }
 }

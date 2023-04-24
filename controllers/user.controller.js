@@ -1,4 +1,6 @@
 const User = require('../schemas/User.schema');
+const { createJWT } = require('../helpers/jwt');
+const { generateTokenInRegister } = require('../helpers/tokenRegister');
 
 const login = async( req, res ) => {
     console.log(req.body)
@@ -10,7 +12,7 @@ const login = async( req, res ) => {
 
 const register = async( req, res ) => {
     const {body} = req;
-    const {  email, password } = body;
+    const {  email, password, name, token } = body;
     
     try {
 
@@ -22,10 +24,23 @@ const register = async( req, res ) => {
                 msg: 'Ya existe un usuario con ese correo'
             })
         }
-        const user = await User.create(body);
+        // //Generar JWT
+        // const token = await createJWT( user.id, user.name)
+
+        const user = await User.create({
+            name,
+            email,
+            password,
+            token: generateTokenInRegister()
+        });
+
+        
+
         res.status(201).json({
             ok: true,
-            user
+            id: user.id,
+            name: user.name,
+            token
         });
         
     } catch (error) {
