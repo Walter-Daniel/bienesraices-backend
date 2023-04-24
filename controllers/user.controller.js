@@ -1,6 +1,7 @@
 const User = require('../schemas/User.schema');
 const { createJWT } = require('../helpers/jwt');
 const { generateTokenInRegister } = require('../helpers/tokenRegister');
+const { emailRegister } = require('../helpers/email');
 
 const login = async( req, res ) => {
     console.log(req.body)
@@ -34,7 +35,11 @@ const register = async( req, res ) => {
             token: generateTokenInRegister()
         });
 
-        
+        emailRegister({
+            name: user.name,
+            email: user.email,
+            token: user.token
+        })
 
         res.status(201).json({
             ok: true,
