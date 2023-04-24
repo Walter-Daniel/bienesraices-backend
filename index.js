@@ -5,7 +5,7 @@ const cors =  require('cors')
 //Crear el server
 const app = express();
 
-//Habilitar la lectura y parseo del body
+//Habilitar lectura y parseo del body
 app.use(express.json());
 
 //Habilitar lectura de datos formulario
