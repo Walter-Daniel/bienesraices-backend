@@ -12,8 +12,7 @@ const login = async( req, res ) => {
 };
 
 const register = async( req, res ) => {
-    const {body} = req;
-    const {  email, password, name, token } = body;
+    const {  email, password, name, token } = req.body;
     
     try {
 
@@ -23,8 +22,8 @@ const register = async( req, res ) => {
             return res.status(400).json({
                 ok: false,
                 msg: 'Ya existe un usuario con ese correo'
-            })
-        }
+            });
+        };
         // //Generar JWT
         // const token = await createJWT( user.id, user.name)
 
@@ -35,6 +34,7 @@ const register = async( req, res ) => {
             token: generateTokenInRegister()
         });
 
+        //Enviar información al mail de confirmación
         emailRegister({
             name: user.name,
             email: user.email,
@@ -56,9 +56,35 @@ const register = async( req, res ) => {
     }
 };
 
+const confirmEmail = async(req, res) => {
+
+    const { token } = req.body;
+  
+    try {
+        const user = await User.findOne({ where: {token} });
+        if(!user) {
+            return res.status(400).json({
+                ok: 'false',
+                msg: 'No se ha podido confirmar el usuario'
+            });
+        }
+        res.status(200).json({
+            ok: 'true',
+            msg: 'El usuario ha sido confirmado'
+        });
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            ok: 'false',
+            msg: 'Hable con el administrador'
+        });
+    };
+};
+
 
 
 module.exports = {
     login,
-    register
+    register,
+    confirmEmail
 }
