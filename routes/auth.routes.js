@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
-const { login, register, confirmEmail } = require('../controllers/user.controller');
+const { login, register, confirmEmail, resetPassword } = require('../controllers/user.controller');
 
 router.post('/', 
 [
@@ -33,5 +33,6 @@ router.post('/register',
                 }).withMessage('La contraseña debe tener al menos: una letra minúscula, una mayúscula, un caracter especial y una longitud entre 6 y 12 caracteres'),
 ], register);
 router.post('/confirm', confirmEmail);
+router.post('/reset-password', [check('email', 'El email es obligatorio').isEmail()], resetPassword);
 
 module.exports = router;
