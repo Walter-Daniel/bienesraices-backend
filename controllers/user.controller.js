@@ -1,7 +1,7 @@
 const User = require('../schemas/User.schema');
 const { createJWT } = require('../helpers/jwt');
 const { generateTokenInRegister } = require('../helpers/tokenRegister');
-const { emailRegister } = require('../helpers/email');
+const { emailRegister, sendEmailResetPassword } = require('../helpers/email');
 
 const login = async( req, res ) => {
     console.log(req.body)
@@ -49,11 +49,10 @@ const register = async( req, res ) => {
         });
         
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             msg: 'Hable con el administrador'
-        })
-    }
+        });
+    };
 };
 
 const confirmEmail = async(req, res) => {
@@ -68,23 +67,58 @@ const confirmEmail = async(req, res) => {
                 msg: 'No se ha podido confirmar el usuario'
             });
         }
+          //confirmar Cuenta 
+        user.token = null;
+        user.confirm = true;
+        await user.save();
         res.status(200).json({
             ok: 'true',
             msg: 'El usuario ha sido confirmado'
         });
     } catch (error) {
-        console.log(error)
         res.status(500).json({
             ok: 'false',
+            msg: 'Hable con el administrador'
+        });
+    };    
+};
+
+const resetPassword = async(req, res) => {
+    const { email } = req.body;  
+    try {
+        let userExist = await User.findOne({ where: {email} });
+        if( !userExist ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'No existe un usuario con ese correo'
+            });
+        };
+        userExist.token = generateTokenInRegister();
+        await userExist.save();
+
+        //Enviar información al mail de recuperación de password
+        sendEmailResetPassword({
+            name: userExist.name,
+            email: userExist.email,
+            token: userExist.token
+        });
+
+        res.status(200).json({
+            ok: true,
+            msg: 'el mensaje de recuperación de password ha sido enviado',
+            token
+        });
+        
+    } catch (error) {
+        res.status(500).json({
             msg: 'Hable con el administrador'
         });
     };
 };
 
-
-
 module.exports = {
     login,
     register,
-    confirmEmail
+    confirmEmail,
+    resetPassword
 }
