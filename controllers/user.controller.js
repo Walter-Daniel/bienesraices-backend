@@ -2,6 +2,7 @@ const User = require('../schemas/User.schema');
 const { createJWT } = require('../helpers/jwt');
 const { generateTokenInRegister } = require('../helpers/tokenRegister');
 const { emailRegister, sendEmailResetPassword } = require('../helpers/email');
+const bcrypt = require('bcrypt');
 
 const login = async( req, res ) => {
     console.log(req.body)
@@ -105,7 +106,7 @@ const resetPassword = async(req, res) => {
 
         res.status(200).json({
             ok: true,
-            msg: 'el mensaje de recuperación de password ha sido enviado',
+            msg: 'El mensaje de recuperación de password ha sido enviado',
             token
         });
         
@@ -116,9 +117,62 @@ const resetPassword = async(req, res) => {
     };
 };
 
+const checkToken = async(req, res) => {
+    const { token } = req.body;
+    try {
+        let user = await User.findOne({ where: { token } });
+        if(!user){
+            res.status(400).json({
+                ok: false,
+                msg: 'Hubo un error al validar tu información'
+            });
+        };
+        res.status(200).json({
+            ok: true,
+            msg: 'Por favor, ingresar la nueva contraseña'
+        })
+    } catch (error) {
+        console.log(error)
+    }
+};
+
+const newPassword = async(req, res) => {
+    const { password, token } = req.body
+    console.log(password, token)
+    try {
+        let user = await User.findOne({ where: { token } });
+        if(!user) {
+            res.status(400).json({
+                ok: false,
+                msg: 'Hubo un error al validar su información'
+            });
+        }; 
+
+        //Hashear el nuevo password
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash( password, salt );
+
+        //Eliminar token
+        user.token = null
+        await user.save()
+        res.status(200).json({
+            ok:true,
+            msg: 'La contraseña se guardo correctamente'
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+}
+
 module.exports = {
     login,
     register,
     confirmEmail,
-    resetPassword
+    resetPassword,
+    checkToken,
+    newPassword
 }
