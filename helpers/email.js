@@ -56,7 +56,7 @@ const sendEmailResetPassword = async({ name, email, token }) => {
         <a href='${process.env.FRONTEND_URL}/auth/recoverPassword/${token}'>Recuperar contraseña</a>
       </p>
 
-      <p>Si tu no creaste esta cuenta, puedes ignorar este mensaje</p>
+      <p>Si tu no solicitaste el cambio de password, puedes ignorar este mensaje.</p>
       
       `
     })
