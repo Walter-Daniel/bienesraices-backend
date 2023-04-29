@@ -6,9 +6,55 @@ const bcrypt = require('bcrypt');
 
 const login = async( req, res ) => {
     console.log(req.body)
+    const {  email, password } = req.body;
+    try {
+        //comprobar si existe el usuario
+        const user = await User.findOne({ where: { email } });
+        if( !user ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Credenciales incorrectas'
+            });
+        }
+
+        //Comprobar si el usuario esta confirmado
+        if( !user.confirm ) {
+            return res.status(400).json({
+                ok: false,
+                msg: 'Tu cuenta no ha sido confirmada'
+            });
+        }
+
+        //Comprobar si la contraseña es valida
+        const validPassword = bcrypt.compareSync( password, user.password );
+        if(!validPassword){
+            return res.status(400).json ({
+                ok:false,
+                msg: 'Credenciales incorrectas'
+            })
+        };
+
+        //Crear token
+        const token = await createJWT( user.email, user.name )
+        return res.status(201).json({
+            ok: true,
+            msg: 'Inicio de sesión exitoso',
+            id: user.id,
+            name: user.name,
+            token
+        });
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            ok: false,
+            msg: 'Comuniquese con el administrador'
+        })
+    }
+    const token = await createJWT( user.id, user.name );
     res.status(400).json({
         ok: true,
-        msg: 'Respuesta post desde login'
+        
     })
 };
 
