@@ -30,6 +30,7 @@ app.use( express.static('public') )
 
 //Routing 
 app.use('/', require('./routes/users.routes'));
+app.use('/api/houses', require('./routes/houses.routes'));
 app.use('/api/auth', require('./routes/auth.routes'));
 
 

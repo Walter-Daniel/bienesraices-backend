@@ -1,12 +1,11 @@
 const User = require('../schemas/User.schema');
+const bcrypt = require('bcrypt');
 const { createJWT } = require('../helpers/jwt');
 const { generateTokenInRegister } = require('../helpers/tokenRegister');
 const { emailRegister, sendEmailResetPassword } = require('../helpers/email');
-const bcrypt = require('bcrypt');
 
 const login = async( req, res ) => {
-    console.log(req.body)
-    const {  email, password } = req.body;
+    const { email, password } = req.body;
     try {
         //comprobar si existe el usuario
         const user = await User.findOne({ where: { email } });
@@ -25,7 +24,7 @@ const login = async( req, res ) => {
             });
         }
 
-        //Comprobar si la contraseña es valida
+        //Comprobar si la contraseña es válida
         const validPassword = bcrypt.compareSync( password, user.password );
         if(!validPassword){
             return res.status(400).json ({
@@ -35,7 +34,7 @@ const login = async( req, res ) => {
         };
 
         //Crear token
-        const token = await createJWT( user.email, user.name )
+        const token = await createJWT( user.email, user.name );
         return res.status(201).json({
             ok: true,
             msg: 'Inicio de sesión exitoso',
@@ -45,21 +44,15 @@ const login = async( req, res ) => {
         });
 
     } catch (error) {
-        console.log(error)
         return res.status(500).json({
             ok: false,
-            msg: 'Comuniquese con el administrador'
+            msg: 'Comuníquese con el administrador'
         })
     }
-    const token = await createJWT( user.id, user.name );
-    res.status(400).json({
-        ok: true,
-        
-    })
 };
 
 const register = async( req, res ) => {
-    const {  email, password, name, token } = req.body;
+    const { email, password, name, token } = req.body;
     
     try {
 
@@ -178,13 +171,15 @@ const checkToken = async(req, res) => {
             msg: 'Por favor, ingresar la nueva contraseña'
         })
     } catch (error) {
-        console.log(error)
+        res.json({
+            ok:false,
+            msg: 'Comuníquese con el administrador'
+        })
     }
 };
 
 const newPassword = async(req, res) => {
     const { password, token } = req.body
-    console.log(password, token)
     try {
         let user = await User.findOne({ where: { token } });
         if(!user) {
