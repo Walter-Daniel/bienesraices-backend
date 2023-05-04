@@ -1,8 +1,7 @@
 const { exit } = require('node:process')
 const categories = require('./category');
-const Category = require('../schemas/Category.schema');
 const prices = require('./price');
-const Price = require('../schemas/Price.schema');
+const { Price, Category } = require('../schemas/index');
 const { db } = require('../config/db');
 
  const importData = async() => {
