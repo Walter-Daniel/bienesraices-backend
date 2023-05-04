@@ -10,7 +10,7 @@ const Estate = db.define('estate', {
         primaryKey: true
     },
     title: {
-        type: DataTypes.STRING(50),
+        type: DataTypes.STRING(30),
         allowNull: false
     },
     description: {
@@ -21,16 +21,27 @@ const Estate = db.define('estate', {
         type: DataTypes.STRING,
         allowNull: false
     },
+    size: {
+        type: DataTypes.SMALLINT,
+        allowNull: false
+    },
+    bedroom: {
+        type: DataTypes.TINYINT,
+        allowNull: false
+    },
+    bathroom: {
+        type: DataTypes.TINYINT,
+        allowNull: false
+    },
     image: {
         type: DataTypes.STRING,
         allowNull: false
-    },
+    }, 
     state: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue: false
-    }
-    
+    }   
 });
 
 module.exports = Estate;
