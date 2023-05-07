@@ -1,6 +1,8 @@
 
 const estate = ( req, res ) => {
-    console.log(req)
+    res.json({
+        msg: 'Hola'
+    })
 }
 
 module.exports = {

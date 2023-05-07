@@ -5,7 +5,7 @@ const { login, register, confirmEmail, resetPassword, checkToken, newPassword } 
 
 router.post('/', 
 [
-        check('email', 'El email es obligatorio').isEmail(),
+        check('email', 'El email es obligatorio AAAAA').isEmail(),
         check('password', 'La contraseña es obligatoria')
                 .isStrongPassword({
                         minLength: 6,
