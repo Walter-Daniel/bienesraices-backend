@@ -1,5 +1,4 @@
 //Crear modelos luego hacer las relaciones. Archivo central con las diferentes asociaciones
-
 const Category = require('./Category.schema');
 const Estate = require('./Estate.schema');
 const Price = require('./Price.schema');

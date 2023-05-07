@@ -2,7 +2,6 @@ const { DataTypes } = require('sequelize');
 const { db } = require('../config/db');
 const bcrypt = require('bcrypt');
 
-
 const User = db.define('User', {
     name: {
         type: DataTypes.STRING,

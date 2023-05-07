@@ -1,11 +1,7 @@
-const express = require('express');
-const router = express.Router();
-const { body, check } = require('express-validator');
-const { estate } = require('../controllers/realestate.controller');
-const { fildsValidator }= require('../middleware/validator')
+const { check } = require("express-validator");
+const { fildsValidator }= require('../../helpers/validator');
 
-router.post('/', 
-[
+const createValidation = [
     check('title')
                 .notEmpty().withMessage('El título es obligatorio')
                 .isLength({ max: 30}).withMessage('Debe tener una longitud máxima de 30 caracteres'),
@@ -18,6 +14,6 @@ router.post('/',
     check('bathroom').notEmpty().withMessage('La cantidad de habitaciones es obligatoria'),
     check('image').notEmpty().withMessage('La imagen es obligatoria'),
     fildsValidator
-], estate);
+]
 
-module.exports = router;
+module.exports = createValidation;
