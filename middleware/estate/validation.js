@@ -1,7 +1,7 @@
 const { check } = require("express-validator");
 const { fildsValidator }= require('../../helpers/validator');
 
-const createValidation = [
+const createValidation= [
     check('title')
                 .notEmpty().withMessage('El título es obligatorio')
                 .isLength({ max: 30}).withMessage('Debe tener una longitud máxima de 30 caracteres'),
@@ -16,4 +16,6 @@ const createValidation = [
     fildsValidator
 ]
 
-module.exports = createValidation;
+module.exports = {
+    createValidation
+};

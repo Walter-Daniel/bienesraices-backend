@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { estate } = require('../controllers/realestate.controller');
-const validatorCreate = require('../middleware/estate/createEstate');
+const { createValidation } = require('../middleware/estate/validation');
 
-router.post('/', validatorCreate , estate);
+router.post('/', createValidation, estate);
 
 module.exports = router;
