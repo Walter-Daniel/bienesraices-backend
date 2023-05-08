@@ -90,7 +90,7 @@ const register = async( req, res ) => {
         
     } catch (error) {
         res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Comuníquese con el administrador'
         });
     };
 };
@@ -118,7 +118,7 @@ const confirmEmail = async(req, res) => {
     } catch (error) {
         res.status(500).json({
             ok: 'false',
-            msg: 'Hable con el administrador'
+            msg: 'Comuníquese con el administrador'
         });
     };    
 };
@@ -151,7 +151,7 @@ const resetPassword = async(req, res) => {
         
     } catch (error) {
         res.status(500).json({
-            msg: 'Hable con el administrador'
+            msg: 'Comuníquese con el administrador'
         });
     };
 };
@@ -204,7 +204,7 @@ const newPassword = async(req, res) => {
         console.log(error)
         res.status(400).json({
             ok: false,
-            msg: 'Hable con el administrador'
+            msg: 'Comuníquese con el administrador'
         })
     }
 }
