@@ -13,4 +13,4 @@ const category  = [
     }
 ];
 
-module.exports = category
+module.exports = category;

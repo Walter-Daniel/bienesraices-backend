@@ -2,8 +2,8 @@ const express = require('express');
 const router = express.Router();
 const { check } = require('express-validator');
 const { login, register, confirmEmail, resetPassword, checkToken, newPassword } = require('../controllers/user.controller');
-const { loginMiddleware, registerMiddleware, passwordMiddleware } = require('../middleware/auth/validation')
-const { fildsValidator } = require('../helpers/validator')
+const { loginMiddleware, registerMiddleware, passwordMiddleware } = require('../middleware/auth/validation');
+const { fildsValidator } = require('../helpers/validator');
 
 router.post('/', loginMiddleware,  login);
 router.post('/register', registerMiddleware, register);
