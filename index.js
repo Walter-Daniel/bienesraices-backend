@@ -32,6 +32,7 @@ app.use( express.static('public') )
 app.use('/', require('./routes/users.routes'));
 app.use('/api/houses', require('./routes/estate.routes'));
 app.use('/api/auth', require('./routes/auth.routes'));
+app.use('/api/upload', require('./routes/upload.routes'));
 
 
 //Definir el puerto

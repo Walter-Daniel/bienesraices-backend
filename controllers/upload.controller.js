@@ -10,20 +10,20 @@ const getImages = async( req, res ) => {
 
 const uploadImagesCloudinary = async(req, res ) => {
 
-    const { id, collection } = req.params;
+    const { id } = req.params;
 
     const promises = req.files.map(file => {
         return new Promise((resolve, reject) => {
           cloudinary.uploader.upload(file.path, (error, { public_id, secure_url  }) => {
-            if (error) reject(error);
 
+            if (error) reject(error);
             const info = {
                 title : public_id,
                 url: secure_url,
                 notes : id
-            }
-                
+            }   
             resolve(info);
+            
           });
         });
       });
