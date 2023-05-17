@@ -1,3 +1,4 @@
+const Estate =  require('../schemas/Estate.schema')
 const cloudinary = require('cloudinary').v2
 cloudinary.config( process.env.CLOUDINARY_URL );
 
@@ -11,6 +12,13 @@ const getImages = async( req, res ) => {
 const uploadImagesCloudinary = async(req, res ) => {
 
     const { id } = req.params;
+    const propiedad = await Estate.findByPk(id);
+    if( !propiedad ) {
+        res.json({
+            ok: false,
+            msg:'No existe una propiedad con ese id'
+        })
+    }
 
     const promises = req.files.map(file => {
         return new Promise((resolve, reject) => {
@@ -20,10 +28,10 @@ const uploadImagesCloudinary = async(req, res ) => {
             const info = {
                 title : public_id,
                 url: secure_url,
-                notes : id
+                estate : id 
             }   
             resolve(info);
-            
+
           });
         });
       });
@@ -31,7 +39,7 @@ const uploadImagesCloudinary = async(req, res ) => {
       try {
         const imageUrls = await Promise.all(promises);
         const images = imageUrls.map(url => new Image( url ));
-        const result = await Image.insertMany(images);
+        propiedad.image = images
 
         return res.json({
             ok:true,
