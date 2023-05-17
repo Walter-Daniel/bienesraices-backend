@@ -53,9 +53,9 @@ const uploadImagesCloudinary = async(req, res ) => {
 
 const deleteImagesCloudinary = async(req, res ) => {
 
-    const imageId = req.params.id;
+    const id = req.params.id;
     try {
-        const imageToDelete = await Image.findById( imageId );
+        const imageToDelete = await Estate.findByPk( id );
         if ( !imageToDelete ) {
             return res.status(404).json({
                 ok: false,
