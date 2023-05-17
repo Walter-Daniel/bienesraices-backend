@@ -22,15 +22,15 @@ const Estate = db.define('estate', {
         allowNull: false
     },
     size: {
-        type: DataTypes.SMALLINT,
+        type: DataTypes.STRING,
         allowNull: false
     },
     bedroom: {
-        type: DataTypes.TINYINT,
+        type: DataTypes.STRING,
         allowNull: false
     },
     bathroom: {
-        type: DataTypes.TINYINT,
+        type: DataTypes.STRING,
         allowNull: false
     },
     image: {
